@@ -9,4 +9,8 @@ public class Cart {
     protected Cart() {
         cart = new HashMap<>();
     }
+
+    protected void add(Product product, Integer amount) {
+        cart.merge(product, amount, Integer::sum);
+    }
 }
