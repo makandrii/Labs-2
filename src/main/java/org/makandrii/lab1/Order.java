@@ -4,9 +4,9 @@ import java.time.LocalDate;
 import java.util.Map;
 
 public class Order {
-    private Map<Product, Integer> products;
-    private double totalPrice;
-    private LocalDate date;
+    private final Map<Product, Integer> products;
+    private final double totalPrice;
+    private final LocalDate date;
 
     public Order(Map<Product, Integer> products) {
         this.products = products;
