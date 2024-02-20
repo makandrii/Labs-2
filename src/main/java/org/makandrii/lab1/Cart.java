@@ -3,10 +3,9 @@ package org.makandrii.lab1;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
-import java.util.Spliterator;
 
 public class Cart implements Iterable<Map.Entry<Product, Integer>> {
-    private final Map<Product, Integer> cart;
+    private Map<Product, Integer> cart;
 
     protected Cart() {
         cart = new HashMap<>();
@@ -17,16 +16,13 @@ public class Cart implements Iterable<Map.Entry<Product, Integer>> {
     }
 
     protected Order makeOrder() {
-        return new Order(cart);
+        Order order = new Order(cart);
+        cart = new HashMap<>();
+        return order;
     }
 
     @Override
     public Iterator<Map.Entry<Product, Integer>> iterator() {
         return cart.entrySet().iterator();
-    }
-
-    @Override
-    public Spliterator<Map.Entry<Product, Integer>> spliterator() {
-        return cart.entrySet().spliterator();
     }
 }
