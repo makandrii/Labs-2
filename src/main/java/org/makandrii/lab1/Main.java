@@ -1,6 +1,7 @@
 package org.makandrii.lab1;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.Scanner;
 
 public class Main {
@@ -14,12 +15,13 @@ public class Main {
 
         boolean isRunning = true;
         while (isRunning) {
-            System.out.println("""
+            System.out.print("""
                     *** Menu ***
                     Please make your choice:
                     1) Show products list
                     2) Show products in cart
-                    3) Make order
+                    3) Remove product from cart
+                    4) Make order
                     0) Exit
                     """);
 
@@ -27,7 +29,7 @@ public class Main {
             int userInput;
             do {
                 userInput = input.nextInt();
-            } while (userInput < 0 || userInput > 3);
+            } while (userInput < 0 || userInput > 4);
 
             switch (userInput) {
                 case 1: {
@@ -41,7 +43,18 @@ public class Main {
                     do {
                         userInput = input.nextInt();
                     } while (userInput < 0 || userInput > products.size() + 1);
-                    user.add(products.get(userInput - 1), 1);
+
+                    if (userInput == 0) {
+                        break;
+                    }
+
+                    System.out.print("Please enter the quantity: ");
+                    int userAmount;
+                    do {
+                        userAmount = input.nextInt();
+                    } while (userAmount <= 0);
+
+                    user.add(products.get(userInput - 1), userAmount);
                     break;
                 }
                 case 2: {
@@ -56,6 +69,29 @@ public class Main {
                     break;
                 }
                 case 3: {
+                    System.out.println("*** Cart ***");
+                    System.out.print("Please enter the name: ");
+
+                    String inputName = input.next();
+
+                    Optional<Product> findResult = user.findBy(inputName);
+                    if (findResult.isPresent()) {
+                        Product product = findResult.get();
+                        System.out.print("Please enter the quantity: ");
+
+                        int userAmount;
+                        do {
+                            userAmount = input.nextInt();
+                        } while (userAmount <= 0);
+
+                        user.remove(product, userAmount);
+                        System.out.println("Done");
+                    } else {
+                        System.out.println("Not found");
+                    }
+                    break;
+                }
+                case 4: {
                     user.makeOrder();
                     System.out.println("Done");
                     break;
